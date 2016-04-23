@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Hart Web Test Results</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        .testResultsList ul {
+            list-style: none;
+
+        }
+
+        .testResultsList li {
+            list-style-type: none;
+            border: 1px solid blue;
+            margin: 5px;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+
+        .testResultWrapper {
+            position: relative;
+        }
+
+        .testName {
+            display: inline-block;
+            position: relative;
+        }
+
+        .testName a {
+            text-decoration: none;
+        }
+
+        .testName a:hover {
+            text-decoration: underline;
+        }
+
+        .testStatus{
+            display: inline-block;
+            position: relative;
+            float: right;
+            padding: 4px;
+            margin-top: -4px;
+            margin-bottom: 4px;
+            margin-right: -4px;
+            border-radius: 4px;
+            min-width: 5em;
+            text-align: center;
+        }
+
+        .failed {
+            background: #FF4444;
+        }
+
+        .passed {
+            background: #44EEAA;
+        }
+
+        .skipped {
+            background: #ffff66;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Test Run</h1>
+    <div id="react-app"></div>
+    <hr>
+    <div id="other results"></div>
+
+
+    <script src="https://cdn.jsdelivr.net/react/0.14.0-rc1/react.js"></script>
+    <script src="https://cdn.jsdelivr.net/react/0.14.0-rc1/react-dom.js"></script>
+    <script>
+        if (typeof window !== 'undefined') {
+            window.React = React;
+        }
+
+
+        var tests = {
+            "log in": { result: "passed" },
+            "log out": { result: "passed" },
+            "view account settings": { result: "skipped" },
+            "sign up": { result: "failed" },
+
+            "view networks": [],
+            "view network details": [],
+            "join network": [],
+            "join multiple networks": [],
+            "disconnect from network": [],
+
+            "view appointments": [],
+            "view appointments - pending": [],
+            "view appointments - previous": [],
+            "schedule new appointment": [],
+            "add insurance to new appointment": [],
+            "cancel appointment": [],
+
+            "view health data": [],
+            "view health data - allergies": [],
+            "view health data - conditions": [],
+            "view health data - documents": [],
+            "view health data - documents - insurance": [],
+            "view health data - documents - appointments": [],
+            "view health data - documents - lab results authorization": [],
+            "view health data - test results": [],
+            "view health data - immunizations": [],
+            "view health data - vitals": [],
+
+            "view medications": [],
+            "view medication details": [],
+
+            "add insurance information": [],
+            "view insurance information": [],
+
+            "view messages": [],
+            "send message": [],
+            "read message": []
+        };
+
+        var TestResult = React.createClass({
+            displayName: 'TestResult',
+
+            propTypes: {
+                testId: React.PropTypes.number.isRequired,
+                testName: React.PropTypes.string.isRequired,
+                testRun: React.PropTypes.string.isRequired,
+                testStatus: React.PropTypes.string.isRequired
+            },
+
+            render: function() {
+                    return (
+                        React.createElement("li", {},
+                                React.createElement("div", { className: "testResultWrapper" },
+                                        React.createElement("div", { className: "testName" },
+                                                React.createElement("a", { href: "/results/run="+this.props.testRun+"/test="+this.props.testId }, this.props.testName)
+                                        ),
+                                        React.createElement("div", { className: "testStatus " + this.props.testStatus}, this.props.testStatus)
+                                )
+                        )
+
+                    )
+            }
+        })
+
+        var testRun="20160419"
+        var testId = 0
+
+        // create a list item element for each test
+        var TestResults = Object.keys(tests).map( function(testName) {
+            testId++
+
+            console.log('testId: ' + testId)
+            console.log('testName: ' + testName)
+            console.log('testRun: ' + testRun)
+
+            var testStatus = tests[testName].result || 'skipped'
+
+            console.log(testStatus)
+
+            return React.createElement(TestResult, { key:testId, testRun:testRun, testId:testId, testName:testName, testStatus:testStatus} )
+        });
+
+
+        var testRunResults = React.createElement("div", { className: "test-run-results" },
+            React.createElement("h2", {}, "Tests"),
+            React.createElement("ul", { className: "testResultsList" }, TestResults)
+        );
+
+        ReactDOM.render(testRunResults, document.getElementById("react-app"))
+
+    </script>
+</body>
+</html>
