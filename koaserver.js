@@ -23,13 +23,23 @@ function * logger(next){
   console.log('%s %s - %s', this.method, this.url, ms);
 }
 
-var testResults = [
-'start web app',
-'sign up new user',
-'login as existing user' ,
-'logout'
+var testCases = [
+	'start web app',
+	'sign up new user',
+	'login as existing user' ,
+	'logout'
 ]
 
+var PASS = 'PASS';
+var FAIL = 'FAIL';
+var SKIP = 'SKIP';
+var NOT_RUN = undefined;
+var testResults = [
+	PASS,
+	FAIL,
+	SKIP,
+	NOT_RUN
+]
 
 function * results() {
 	var body = ""
@@ -38,9 +48,9 @@ function * results() {
 
 	body += "\n<ul>\n";
 
-	for (test in testResults) {
+	for (test in testCases) {
 		body += "\n<li>\n";
-		body += `${test} : ${testResults[test]}`;
+		body += `${test} : ${testCases[test]} : ${testResults[test]}`;
 		body += "\n</li>\n";
 	}
 	body += "\n</ul>\n";
