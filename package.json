@@ -10,5 +10,8 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "foundation-cli": "^2.1.0"
+  },
+  "dependencies": {
+    "koa": "^1.2.0"
   }
 }
