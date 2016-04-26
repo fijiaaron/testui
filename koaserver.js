@@ -23,7 +23,6 @@ function * logger(next){
   console.log('%s %s - %s', this.method, this.url, ms);
 }
 
-
 var testResults = [
 'start web app',
 'sign up new user',
@@ -48,6 +47,13 @@ function * results() {
 
 	this.body = body;
 }
+
+
+
+
+app.on('error', function(err, ctx){
+  console.error('server error', err, ctx);
+});
 
 
 
